@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Font;
 
 import simple.run.*;
 import simple.gui.panel.*;
@@ -79,18 +80,26 @@ public class Game extends SimpleGUIApp {
 						if (map[i][j][x][y].isClicked() && state[i][j][x][y] == 0) {
 							state[i][j][x][y] = turn;
 							map[i][j][x][y].setCustomDraw(stateDraw[state[i][j][x][y]]);
-							if (gridHasWin(i, j)) {
+							if (gridSectionFull(i, j)) {
 								winMap[i][j] = turn;
-								if (gameWon()) {
-									// Insert Win Code
-								} else {
-									for (int xx=0; xx<3; xx++) {
-										for (int yy=0; yy<3; yy++) {
-											map[i][j][xx][yy].setFillColor((turn==1?new Color(255,200,200):new Color(200,200,255)));
-											map[i][j][xx][yy].setEnabled(false);
-										}
+								for (int xx=0; xx<3; xx++) {
+									for (int yy=0; yy<3; yy++) {
+										map[i][j][xx][yy].setFillColor((turn==1?new Color(255,200,200):new Color(200,200,255)));
+										map[i][j][xx][yy].setEnabled(false);
 									}
 								}
+								if (gameOver()) {
+									for (int ii=0; ii<3; ii++) {
+										for (int jj=0; jj<3; jj++) {
+											for (int xx=0; xx<3; xx++) {
+												for (int yy=0; yy<3; yy++) {
+													map[ii][jj][xx][yy].setEnabled(false);
+												}
+											}
+										}
+									}
+									continue;
+								} 
 							}
 							turn = nextTurn(turn);
 							
@@ -116,6 +125,13 @@ public class Game extends SimpleGUIApp {
 	
 	public void draw() {
 		reset.draw();
+		
+		draw.setFont(new Font("Arial", Font.BOLD, 20));
+		if (gameStatus==-1) {
+			draw.textCentered((turn==1?"X":"O")+"'s turn", 650, 200);
+		} else {
+			draw.textCentered((gameStatus==0? "Tie" : (gameStatus==1? "X":"O")+" wins!"), 650, 200);
+		}
 		
 		draw.setStroke(Color.black, 4);
 		draw.setFill(null);
@@ -171,20 +187,31 @@ public class Game extends SimpleGUIApp {
 		return false;
 	}
 	
-	boolean gameWon() {
+	boolean gameOver() {
 		for (int player=1; player<=2; player++) {
 			for (int i=0; i<3; i++) {
 				if ((winMap[i][0]==player && winMap[i][1]==player && winMap[i][2]==player) ||
 						(winMap[0][i]==player && winMap[1][i]==player && winMap[2][i]==player)) {
+					gameStatus = player;
 					return true;
 				}
 			}
 			if ((winMap[0][0]==player && winMap[1][1]==player && winMap[2][2]==player) ||
 					(winMap[2][0]==player && winMap[1][1]==player && winMap[0][2]==player)) {
+				gameStatus = player;
 				return true;
 			}
 		}
-		return false;
+		
+		for (int i=0; i<3; i++) {
+			for (int j=0; j<3; j++) {
+				if (winMap[i][j]==0) {
+					return false;
+				}
+			}
+		}
+		gameStatus = 0;
+		return true;
 	}
 	
 	void enableAll() {
@@ -203,6 +230,7 @@ public class Game extends SimpleGUIApp {
 	
 	void reset() {
 		turn = 1;
+		gameStatus = -1;
 		for (int i=0; i<3; i++) {
 			for (int j=0; j<3; j++) {
 				winMap[i][j] = 0;
