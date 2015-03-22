@@ -31,6 +31,7 @@ public class Game extends SimpleGUIApp {
 		ninth = 500/9;
 		map = new Button[3][3][3][3];
 		state = new int[3][3][3][3];
+		winMap = new int[3][3];
 		for (int i=0; i<3; i++) {
 			for (int j=0; j<3; j++) {
 				winMap[i][j] = 0;
@@ -204,6 +205,7 @@ public class Game extends SimpleGUIApp {
 		turn = 1;
 		for (int i=0; i<3; i++) {
 			for (int j=0; j<3; j++) {
+				winMap[i][j] = 0;
 				for (int x=0; x<3; x++) {
 					for (int y=0; y<3; y++) {
 						map[i][j][x][y].setEnabled(true);
