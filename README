@@ -1,0 +1,3 @@
+An implementation of the game "Ultimate Tic-Tac-Toe" in Java using my SimpleGUI_V2 library. Rules can be found online.
+
+Jar file is included. It's set up as an eclipse project, but everything needed to run the game is included in this repository. Run the "GameApp" class to start a game.
