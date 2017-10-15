@@ -11,25 +11,25 @@ public class GamePanel extends ScaledPanel {
 	static final int PLAYER1 = 1;
 	static final int PLAYER2 = 2;
 	
-	int turn;
-	int status;
-	boolean eventOccured;
+	int _turn;
+	int _status;
+	boolean _eventOccured;
 	
 	SubGamePanel[][] subGames;
 	
-	public int getTurn() { return turn; }
-	public int getStatus() { return status; }
+	public int getTurn() { return _turn; }
+	public int getStatus() { return _status; }
 	public boolean didEventOccur() { 
-		boolean temp = eventOccured;
-		return (eventOccured = false) != temp;
+		boolean temp = _eventOccured;
+		return (_eventOccured = false) != temp;
 	}
 	
 	public GamePanel(int x, int y, int w, int h) {
 		super(x, y, w, h, 3, 3);
 		
-		turn = 1;
-		status = IN_PLAY;
-		eventOccured = false;
+		_turn = 1;
+		_status = IN_PLAY;
+		_eventOccured = false;
 		
 		subGames = new SubGamePanel[3][3];
 		for (int i=0; i<3; i++) {
@@ -40,19 +40,19 @@ public class GamePanel extends ScaledPanel {
 		}
 	}
 	
-	public void update() {
-		super.update();
+	public void updateWidget() {
+		super.updateWidget();
 		
 		for (int i=0; i<3; i++) {
 			for (int j=0; j<3; j++) {
 				// checks if an inner tile was clicked
 				if (subGames[i][j].wasTileClicked()) {
 					int[] nextSubGame = subGames[i][j].getClickedTile();
-					status = isGameFinished();
-					eventOccured = true;
+					_status = isGameFinished();
+					_eventOccured = true;
 					
 					// Only if game is still active
-					if (status == IN_PLAY) {
+					if (_status == IN_PLAY) {
 						if (subGames[nextSubGame[0]][nextSubGame[1]].getStatus() != IN_PLAY) {
 							// If the next game would be unplayable, enable all playable games
 							for (int ii=0; ii<3; ii++) {
@@ -77,31 +77,31 @@ public class GamePanel extends ScaledPanel {
 							}
 						}
 					}
-					turn = nextTurn(turn);
+					_turn = nextTurn(_turn);
 				}
 			}
 		}
 	}
 	
-	public void draw() {
-		super.draw();
+	public void drawWidget() {
+		super.drawWidget();
 		
 		// Drawing the four separating gridlines for partitioning subgames
-		draw.setStroke(new Color(0, 0, 0), 4);
+		Draw.setStroke(new Color(0, 0, 0), 4);
 		for (int i=1; i<3; i++) {
 			for (int j=1; j<3; j++) {
-				draw.line(subGames[i][j].getX(), y, subGames[i][j].getX(), y+h);
-				draw.line(x, subGames[i][j].getY(), x+w, subGames[i][j].getY());
+				Draw.line(subGames[i][j].x(), _y, subGames[i][j].x(), _y+_h);
+				Draw.line(_x, subGames[i][j].y(), _x+_w, subGames[i][j].y());
 			}
 		}
 		
-		draw.setColors(null, Color.BLACK, 2);
-		draw.rect(x, y, w, h);
+		Draw.setColors(null, Color.BLACK, 2);
+		Draw.rect(_x, _y, _w, _h);
 	}
 	
 	public void reset() {
-		status = IN_PLAY;
-		eventOccured = false;
+		_status = IN_PLAY;
+		_eventOccured = false;
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				subGames[i][j].reset();

@@ -1,5 +1,6 @@
 import java.awt.Color;
 
+import simple.gui.Draw;
 import simple.gui.panel.ScaledPanel;
 
 public class SubGamePanel extends ScaledPanel {
@@ -62,12 +63,12 @@ public class SubGamePanel extends ScaledPanel {
 		}
 	}
 	
-	public void update() {
-		super.update();
+	public void updateWidget() {
+		super.updateWidget();
 		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
-				if (tiles[i][j].isClicked()) {
+				if (tiles[i][j].clicked()) {
 					clickedX = i;
 					clickedY = j;
 					tileWasClicked = true;
@@ -88,15 +89,15 @@ public class SubGamePanel extends ScaledPanel {
 		}
 	}
 	
-	public void draw() {
-		super.draw();
+	public void drawWidget() {
+		super.drawWidget();
 		
 		// Drawing the four separating gridlines in the subgame
-		draw.setStroke(new Color(0, 0, 0), 1);
+		Draw.setStroke(new Color(0, 0, 0), 1);
 		for (int i=1; i<3; i++) {
 			for (int j=1; j<3; j++) {
-				draw.line(tiles[i][j].getX(), y+5, tiles[i][j].getX(), y+h-5);
-				draw.line(x+5, tiles[i][j].getY(), x+w-5, tiles[i][j].getY());
+				Draw.line(tiles[i][j].x(), _y+5, tiles[i][j].x(), _y+_h-5);
+				Draw.line(_x+5, tiles[i][j].y(), _x+_w-5, tiles[i][j].y());
 			}
 		}
 	}

@@ -3,6 +3,7 @@ import java.awt.Font;
 
 import simple.gui.*;
 import simple.gui.panel.*;
+import simple.gui.textarea.*;
 import simple.run.SimpleGUIApp;
 
 
@@ -24,7 +25,7 @@ public class GameApp extends SimpleGUIApp {
 		screen = new BasicPanel(0, 0, getWidth(), getHeight()) {{
 			addWidget(game);
 			
-			final int sidePanelWidth = w-border;
+			final int sidePanelWidth = _w-border;
 			addWidget(new ScaledPanel(border, 0, sidePanelWidth, getHeight()) {{
 					setDrawContainingPanel(true);
 					setFillColor(new Color(200, 255, 200));
@@ -47,7 +48,7 @@ public class GameApp extends SimpleGUIApp {
 	public void loop() {
 		screen.update();
 		
-		if (reset.isClicked()) {
+		if (reset.clicked()) {
 			game.reset();
 			updateLabel();
 		}

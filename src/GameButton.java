@@ -12,14 +12,14 @@ public class GameButton extends Button {
 		new CustomDraw() { public void draw(Widget w) {} },
 		// Player 1 is x, so it stores the x drawing method. This will be given to any button object that needs to show an x on it
 		new CustomDraw() { public void draw(Widget w) {
-				draw.setStroke(new Color(255, 20, 20), 4);
-				draw.line(w.getX()+10, w.getY()+10, w.getX()+w.getWidth()-10, w.getY()+w.getHeight()-10);
-				draw.line(w.getX()+10, w.getY()+w.getHeight()-10, w.getX()+w.getWidth()-10, w.getY()+10);
+				Draw.setStroke(new Color(255, 20, 20), 4);
+				Draw.line(w.x()+10, w.y()+10, w.x()+w.w()-10, w.y()+w.h()-10);
+				Draw.line(w.x()+10, w.y()+w.h()-10, w.x()+w.w()-10, w.y()+10);
 			}},
 		// Same as before but for Player 2 and with an O
 		new CustomDraw() { public void draw(Widget w) {
-				draw.setStroke(new Color(50, 50, 255), 4);
-				draw.ovalCentered(w.getX()+w.getWidth()/2, w.getY()+w.getHeight()/2, w.getWidth()/2-5, w.getHeight()/2-5);
+				Draw.setStroke(new Color(50, 50, 255), 4);
+				Draw.ovalCentered(w.x()+w.w()/2, w.y()+w.h()/2, w.w()/2-5, w.h()/2-5);
 			}}
 	};
 	
@@ -29,7 +29,7 @@ public class GameButton extends Button {
 	
 	public void setState(int state) {
 		this.state = state;
-		setCustomDraw(STATE_DRAW[state]);
+		setCustomDrawAfter(STATE_DRAW[state]);
 	}
 	
 	public GameButton() {
@@ -39,7 +39,7 @@ public class GameButton extends Button {
 		setFillColor(Color.WHITE);
 		
 		state = UNPLAYED;
-		setCustomDraw(STATE_DRAW[state]);
+		setCustomDrawAfter(STATE_DRAW[state]);
 	}
 	
 	public void reset() {
