@@ -6,6 +6,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/SimpleGUI_V2/simplegui2.jar"/>
+	<classpathentry kind="lib" path="simplegui2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
